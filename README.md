@@ -9,3 +9,12 @@ Every Monday, a GitHub action creates a draft PR with a markdown file containing
 
 Meeting notes are saved in this private repo. They are very helpful to refer back to for both of us during review season. If they get a new manager, with the report's permission, I can transfer the repo over so they can have a consistent process, and so that the new manager can have access to previous notes.
 
+## Customizing the action
+
+### Changing meeting date based on day of week
+
+### Adding quarterly goalsetting
+
+## Thanks!
+
+Special thanks to @matthewferry who originally wrote this action for a team meeting.

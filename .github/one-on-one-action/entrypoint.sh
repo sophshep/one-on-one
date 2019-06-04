@@ -29,6 +29,8 @@ cat <<-EOM > "$MEETING_FILE"
 ### Do you have any feedback for me or your teammates?
 
 ### Notes & Action items
+- [ ] TODO 1
+- [ ] TODO 2
 
 
 EOM
