@@ -49,5 +49,5 @@ echo "Pushed notes to $MEETING_BRANCH_NAME"
 
 # Create pull request
 echo "Open pull request…"
-curl -o /dev/null --data "{\"title\": \"$PULL_REQUEST_TITLE\", \"head\": \"refs/heads/$MEETING_BRANCH_NAME\", \"draft\": true, \"base\": \"master\"}" -X POST -s -H "$AUTH_HEADER" -H "$API_HEADER" "$PULLS_URI"
+curl -o /dev/null --data "{\"title\": \"$PULL_REQUEST_TITLE\", \"head\": \"refs/heads/$MEETING_BRANCH_NAME\", \"base\": \"master\"}" -X POST -s -H "$AUTH_HEADER" -H "$API_HEADER" "$PULLS_URI"
 echo "Opened pull request"
