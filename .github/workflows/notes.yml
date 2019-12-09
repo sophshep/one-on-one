@@ -8,7 +8,10 @@ jobs:
     name: create meeting notes
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./actions/one-on-one/
+    
+    - uses: actions/checkout@master
+      
+    - name: Create notes PR
+      uses: ./actions/one-on-one/
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
