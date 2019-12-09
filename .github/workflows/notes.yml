@@ -1,8 +1,7 @@
 name: one-on-one
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  [push]
 
 jobs:
   notes:
@@ -10,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: ./.github/actions/one-on-one/
+    - uses: ./actions/one-on-one/
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
