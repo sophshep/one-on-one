@@ -12,6 +12,6 @@ jobs:
     - uses: actions/checkout@master
       
     - name: Create notes PR
-      uses: ./actions/one-on-one/
+      uses: ./
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
