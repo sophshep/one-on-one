@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: sophshep/one-on-one/.github/actions/one-on-one
+    - uses: sophshep/one-on-one/.github/actions/one-on-one@master
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
