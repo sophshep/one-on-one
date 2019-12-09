@@ -1,0 +1,14 @@
+name: one-on-one
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+
+jobs:
+  notes:
+    name: create meeting notes
+    runs-on: ubuntu-latest
+    steps:
+    - uses: ./one-on-one-action/
+      with: 
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
