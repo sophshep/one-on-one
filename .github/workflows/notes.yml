@@ -9,6 +9,6 @@ jobs:
     name: create meeting notes
     runs-on: ubuntu-latest
     steps:
-    - uses: ./one-on-one-action/
+    - uses: actions/one-on-one
       with: 
         repo-token: ${{ secrets.GITHUB_TOKEN }}
