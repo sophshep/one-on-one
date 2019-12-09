@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/bin/sh -l
+
+echo "Hello $1"
+time=$(date)
+echo ::set-output name=time::$time
 
 # Variables
 MEETING_DATE=$(date -d "+1 day" +%Y-%m-%d)
