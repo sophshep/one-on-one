@@ -17,6 +17,6 @@ jobs:
               repo: 'one-on-one',
               title: 'hello world',
               body: '👋 what is up bitches!',
-              head: 'notes-branch',
-              base: 'master'
+              head: notes-branch,
+              base: master
             })
