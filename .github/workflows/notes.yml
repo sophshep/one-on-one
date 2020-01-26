@@ -12,12 +12,10 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-            MEETING_DATE=$(date -d "+1 day" +%Y-%m-%d)
-            PULL_REQUEST_TITLE="1:1 notes for $MEETING_DATE"
             github.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: PULL_REQUEST_TITLE,
+              owner: 'sophshep',
+              repo: 'one-on-one',
+              title: 'hello world',
               head: `new-branch`,
               base: 'master',
               body: '👋 what is up bitches!'
