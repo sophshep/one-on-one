@@ -19,4 +19,4 @@ jobs:
               head: `new-branch`,
               base: 'master',
               body: '👋 what is up bitches!'
-            }):
+            })
