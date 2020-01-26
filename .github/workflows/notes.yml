@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/github-script@0.4.0
-    - name: Create notes PR
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
