@@ -5,8 +5,10 @@ on:
 
 jobs:
   post-notes:
+    name: make-pr
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - uses: actions/github-script@0.4.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
