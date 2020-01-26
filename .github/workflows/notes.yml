@@ -16,7 +16,7 @@ jobs:
               owner:'sophshep',
               repo:'one-on-one',
               title:'hello world',
-              head:'sophshep:new-branch',
+              head:'run-script',
               base:'master',
               body:'👋 what is up bitches!',
               draft: true
