@@ -18,8 +18,8 @@ jobs:
             github.pulls.create({
               owner:'sophshep',
               repo:'one-on-one',
-              title:'1:1 notes for $MEETING_DATE',
-              head:'run-script',
+              title:'1:1 notes',
+              head: MEETING_BRANCH_NAME,
               base:'master',
               body:'hi everyone',
               draft: true
