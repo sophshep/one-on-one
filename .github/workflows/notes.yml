@@ -13,10 +13,10 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
             github.pulls.create({
-              owner: 'sophshep',
-              repo: 'one-on-one',
-              title: 'hello world',
-              head: 'new-branch',
-              base: 'master',
-              body: '👋 what is up bitches!'
+              owner:'sophshep',
+              repo:'one-on-one',
+              title:'hello world',
+              head:'sophshep:new-branch',
+              base:'master',
+              body:'👋 what is up bitches!'
             })
