@@ -12,9 +12,11 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-            github.issues.create({
+            github.pulls.create({
               owner: 'sophshep',
               repo: 'one-on-one',
               title: 'hello world',
-              body: '👋 what is up bitches!'
+              body: '👋 what is up bitches!',
+              head: 'sophshep:notes',
+              base: 'master'
             })
