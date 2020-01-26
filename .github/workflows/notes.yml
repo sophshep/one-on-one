@@ -18,5 +18,6 @@ jobs:
               title:'hello world',
               head:'sophshep:new-branch',
               base:'master',
-              body:'👋 what is up bitches!'
+              body:'👋 what is up bitches!',
+              draft: true
             })
