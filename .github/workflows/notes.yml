@@ -17,6 +17,6 @@ jobs:
               repo: 'one-on-one',
               title: 'hello world',
               body: '👋 what is up bitches!',
-              head: 'sophshep:notes',
-              base: 'origin:master'
+              head: 'refs/heads/notes-branch',
+              base: 'master'
             })
