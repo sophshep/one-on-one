@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/github-script@0.4.0
+      env:
+        MEETING_DATE: $(date -d "+1 day" +%Y-%m-%d)
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
@@ -18,6 +20,6 @@ jobs:
               title:'hello world',
               head:'run-script',
               base:'master',
-              body:'👋 what is up bitches!',
+              body:'1:1 notes for $MEETING_DATE',
               draft: true
             })
