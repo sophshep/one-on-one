@@ -7,19 +7,20 @@ jobs:
   notes:
     name: create meeting notes
     runs-on: ubuntu-latest
+    env:
+      MEETING_DATE: $(date -d "+1 day" +%Y-%m-%d)
+      MEETING_BRANCH_NAME: 'notes-$MEETING_DATE'
     steps:
     - uses: actions/github-script@0.4.0
-      env:
-        MEETING_DATE: $(date -d "+1 day" +%Y-%m-%d)
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
             github.pulls.create({
               owner:'sophshep',
               repo:'one-on-one',
-              title:'hello world',
+              title:'1:1 notes for $MEETING_DATE',
               head:'run-script',
               base:'master',
-              body:'1:1 notes for $MEETING_DATE',
+              body:'hi everyone',
               draft: true
             })
