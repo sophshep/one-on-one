@@ -10,8 +10,18 @@ jobs:
     steps:
     
     - uses: actions/checkout@master
+    - uses: actions/github-script@0.4.0
       
     - name: Create notes PR
       uses: ./
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+            github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'hello world',
+              head: `new-branch`,
+              base: 'master',
+              body: '👋 what is up bitches!'
+            }):
