@@ -4,11 +4,10 @@ on:
   [push]
 
 jobs:
-  post-notes:
-    name: make-pr
+  notes:
+    name: create meeting notes
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - uses: actions/github-script@0.4.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -17,7 +16,7 @@ jobs:
               owner: 'sophshep',
               repo: 'one-on-one',
               title: 'hello world',
-              body: '👋 what is up bitches!',
-              head: notes-branch,
-              base: master
+              head: `new-branch`,
+              base: 'master',
+              body: '👋 what is up bitches!'
             })
