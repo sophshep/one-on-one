@@ -18,6 +18,7 @@ jobs:
       run:  |
         for f in meetings-notes/*.md
         do
+        sed -i '/# Meeting Notes/a\
         ## '"$WEEK_OF"'\
         \
         ### What can we talk about? \
