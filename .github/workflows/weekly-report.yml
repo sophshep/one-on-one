@@ -19,7 +19,7 @@ jobs:
       run:  |
         for f in meeting-notes/notes.md
         do
-        sed -i '/# 5\/15/a\
+        sed -i '/# 1:1 notes/a\
         ## '"$WEEK_OF"'\
         \
         ### Accomplishments for the week \
