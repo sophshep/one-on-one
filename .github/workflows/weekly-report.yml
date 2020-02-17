@@ -1,6 +1,5 @@
 name: 'Weekly report'
-on:
-  [push]
+on: [push]
 
 jobs:
   weekly-report:
