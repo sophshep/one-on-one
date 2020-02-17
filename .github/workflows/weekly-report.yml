@@ -22,19 +22,24 @@ jobs:
         sed -i '/# 1:1 notes/a\
         ## '"$WEEK_OF"'\
         \
-        ### Accomplishments for the week \
+        ### What can we talk about? \
         \
-        - [TODO] \
+        - [TODO] _Anything that's on your mind! Work related or not._ \
         \
-        ### Priorities for next week \
+        ### What can we celebrate? \
         \
-        - [TODO] \
+        - [TODO] _Difficult task you accomplished, work you're proud of, kudos you've gotten._ \
         \
-        ### Challenges/Roadblock \
+        ### What's frustrating, blocking, or confusing you? \
         \
-        - [TODO] \
+        - [TODO] _How things can go smoother, times you were annoyed, areas where clarity is needed._ \
         \
-        ### Lessons Learned/Opportunities for Improvement \
+        ### What are your goals for the week? \
+        - [TODO]  _Tasks you've committed to working on within your team's radar or within your own project plan._
+        \
+        ### Do you have any feedback for me or your teammates? \
+        \
+        ### Notes and action items \
         - [TODO]' $f
         done
         
