@@ -17,7 +17,7 @@ jobs:
     # Create meeting notes scaffold
     - name: Create weekly notes scaffold file
       run:  |
-        for f in meeting-notes/*.md
+        for f in meeting-notes/notes.md
         do
         sed -i '/# 5\/15/a\
         ## '"$WEEK_OF"'\
