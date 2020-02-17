@@ -26,15 +26,19 @@ jobs:
         \
         - [TODO] \
         \
-        ### Priorities for next week \
+        ### What can we celebrate? \
         \
         - [TODO] \
         \
-        ### Challenges/Roadblock \
+        ### What's frustrating, blocking, or confusing you? \
         \
         - [TODO] \
         \
-        ### Lessons Learned/Opportunities for Improvement \
+        ### What are your goals for the week? \
+        \
+        - [TODO] \
+        \
+        ### Do you have any feedback for me or your teammates? \
         - [TODO]' $f
         done
         
