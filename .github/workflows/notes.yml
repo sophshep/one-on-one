@@ -1,22 +1,77 @@
-name: one-on-one
-
+name: 'Weekly report'
 on:
   [push]
 
 jobs:
-  notes:
-    name: create meeting notes
+  weekly-report:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/github-script@0.4.0
+    - name: Checkout workspace
+      uses: actions/checkout@master
+
+    # Get date and store as environment variables
+    - name: Get and store variables
+      run: |
+        echo ::set-env name=BRANCH_NAME::$(date +%F)
+        echo ::set-env name=WEEK_OF::"Week of $(date --date='4 days ago' '+%B %d, %Y')"
+    # Create meeting notes scaffold
+    - name: Create weekly notes scaffold file
+      run:  |
+        for f in meetings-notes/*.md
+        do
+        ## '"$WEEK_OF"'\
+        \
+        ### What can we talk about? \
+        \
+        - [TODO] _Anything that's on your mind! Work related or not._ \
+        \
+        ### What can we celebrate? \
+        \
+        - [TODO] _Difficult task you accomplished, work you're proud of, kudos you've gotten._ \
+        \
+        ### What's frustrating, blocking, or confusing you? \
+        \
+        - [TODO] _How things can go smoother, times you were annoyed, areas where clarity is needed._ \
+        \
+        ### What are your goals for the week? \
+        - [TODO]  _Tasks you've committed to working on within your team's radar or within your own project plan._
+        \
+        ### Do you have any feedback for me or your teammates? \
+        \
+        ### Notes and action items \
+        - [TODO]' $f
+        done
+    # Push changes and set env variable for branch name
+    - name: Commit and push notes scaffold to branch
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+        git config --global user.email $GITHUB_ACTOR@users.noreply.github.com
+        git config --global user.name $GITHUB_ACTOR
+        git checkout -b $BRANCH_NAME
+        git add .
+        git commit -m "Adds meeting notes scaffold"
+        git push --force --set-upstream "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" $BRANCH_NAME
+    # Open pull request
+    - name: Open pull request for 1:1 notes
+      uses: actions/github-script@0.4.0
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-            github.pulls.create({
-              owner: 'sophshep',
-              repo: 'one-on-one',
-              title: 'hello world',
-              body: '👋 what is up bitches!',
-              head: notes-branch,
-              base: master
-            })
+          const createPull = await github.pulls.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: process.env["WEEK_OF"],
+            body: "Commit your 1:1 updates",
+            head: process.env["BRANCH_NAME"],
+            base: "master",
+          });
+          github.issues.addAssignees({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: createPull.data.number,
+            assignees: [
+              "sophshep",
+            ],
+          });
