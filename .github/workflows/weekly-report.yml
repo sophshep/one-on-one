@@ -13,33 +13,31 @@ jobs:
       run: |
         echo ::set-env name=BRANCH_NAME::$(date +%F)
         echo ::set-env name=WEEK_OF::"Week of $(date --date='4 days ago' '+%B %d, %Y')"
+    
     # Create meeting notes scaffold
     - name: Create weekly notes scaffold file
       run:  |
-        for f in meetings-notes/*.md
+        for f in meeting-notes/*.md
         do
+        sed -i '/# 5\/15/a\
         ## '"$WEEK_OF"'\
         \
-        ### What can we talk about? \
+        ### Accomplishments for the week \
         \
-        - [TODO] _Anything that's on your mind! Work related or not._ \
+        - [TODO] \
         \
-        ### What can we celebrate? \
+        ### Priorities for next week \
         \
-        - [TODO] _Difficult task you accomplished, work you're proud of, kudos you've gotten._ \
+        - [TODO] \
         \
-        ### What's frustrating, blocking, or confusing you? \
+        ### Challenges/Roadblock \
         \
-        - [TODO] _How things can go smoother, times you were annoyed, areas where clarity is needed._ \
+        - [TODO] \
         \
-        ### What are your goals for the week? \
-        - [TODO]  _Tasks you've committed to working on within your team's radar or within your own project plan._
-        \
-        ### Do you have any feedback for me or your teammates? \
-        \
-        ### Notes and action items \
+        ### Lessons Learned/Opportunities for Improvement \
         - [TODO]' $f
         done
+        
     # Push changes and set env variable for branch name
     - name: Commit and push notes scaffold to branch
       env:
