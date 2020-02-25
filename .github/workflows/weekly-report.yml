@@ -1,7 +1,7 @@
 name: 'Weekly report'
 on:
   schedule:
-    - cron: 0 7 * * 2
+    - cron: 0 3 * * 1
 
 jobs:
   weekly-report:
@@ -14,7 +14,7 @@ jobs:
     - name: Get and store variables
       run: |
         echo ::set-env name=BRANCH_NAME::$(date +%F)
-        echo ::set-env name=WEEK_OF::"Week of $(date --date='4 days ago' '+%B %d, %Y')"
+        echo ::set-env name=WEEK_OF::"Week of $(date '+%B %d, %Y')"
     
     # Create meeting notes scaffold
     - name: Create weekly notes scaffold file
@@ -42,6 +42,8 @@ jobs:
         \
         ### Do you have any feedback for me or your teammates? \
         - [TODO]' $f
+        \
+        \
         done
         
     # Push changes and set env variable for branch name
@@ -75,6 +77,7 @@ jobs:
             repo: context.repo.repo,
             issue_number: createPull.data.number,
             assignees: [
-              "sophshep",
+              "manager-handle",
+              "ic-handle"
             ],
           });
