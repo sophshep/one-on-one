@@ -1,6 +1,6 @@
 # Welcome to your repo
 
-This is a personal repo. It will house all 1:1 notes, documented goals/growth things, and anything else important.
+This repo will house all 1:1 notes, documented goals/growth things, and anything else important.
 
 ## How does it work?
 
