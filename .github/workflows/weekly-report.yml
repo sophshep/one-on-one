@@ -3,20 +3,35 @@ on:
   workflow_dispatch:
   schedule:
     - cron: 0 3 * * 1
-
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   weekly-report:
     runs-on: ubuntu-latest
     steps:
+
+    # Merge Any Existing PRs
+    - name: Repo PRs
+      uses: actions/github-script@v3
+      with:
+        script: |
+          const prs = await github.pulls.list({owner: context.repo.owner, repo: context.repo.repo, state: 'open'})
+          
+          for (var pull of prs.data) {
+            await github.pulls.merge({owner: context.repo.owner, repo: context.repo.repo, pull_number: pull.number})
+          }
+    # Checkout the repo
     - name: Checkout workspace
       uses: actions/checkout@master
+      with:
+        ref: master
 
     # Get date and store as environment variables
     - name: Get and store variables
       run: |
         echo ::set-env name=BRANCH_NAME::$(date +%F)
         echo ::set-env name=WEEK_OF::"Week of $(date '+%B %d, %Y')"
-    
+
     # Create meeting notes scaffold
     - name: Create weekly notes scaffold file
       run: ./update_notes.sh
@@ -29,30 +44,24 @@ jobs:
         echo "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
         git config --global user.email $GITHUB_ACTOR@users.noreply.github.com
         git config --global user.name $GITHUB_ACTOR
-        git checkout -b $BRANCH_NAME
+        git checkout -b ${{ env.BRANCH_NAME }}
         git add .
         git commit -m "Adds meeting notes scaffold"
-        git push --force --set-upstream "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" $BRANCH_NAME
+        git push --set-upstream "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" $BRANCH_NAME
+    
     # Open pull request
     - name: Open pull request for 1:1 notes
-      uses: actions/github-script@0.4.0
+      uses: repo-sync/pull-request@v2
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          const createPull = await github.pulls.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title: process.env["WEEK_OF"],
-            body: "Commit your 1:1 updates",
-            head: process.env["BRANCH_NAME"],
-            base: "master",
-          });
-          github.issues.addAssignees({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: createPull.data.number,
-            assignees: [
-              "manager-handle",
-              "ic-handle"
-            ],
-          });
+        source_branch: "${{ env.BRANCH_NAME }}"           # If blank, default: triggered branch
+        destination_branch: "master"                      # If blank, default: master
+        pr_title: "${{ env.WEEK_OF }}" 
+        pr_body: ":crown: *An automated 1:1 PR*"              # Full markdown support, requires pr_title to be set
+        pr_assignee: "manager-handle, ic-handle"             # Comma-separated list (no spaces)
+        pr_label: "automerge"                             # Comma-separated list (no spaces)
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+ 
+    - name: Clean up stale branches
+      uses: "jessfraz/branch-cleanup-action@master"
+      with:
+        secrets: ${{ secrets.GITHUB_TOKEN }}
