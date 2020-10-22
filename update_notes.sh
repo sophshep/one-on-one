@@ -1,7 +1,7 @@
 #! /bin/bash
 
-for f in meeting-notes/notes.md; do
-cat <<- EOF >> $f
+filename="meeting-notes/notes-$(date '+%B-%d-%Y').md"
+cat <<- EOF >> "${filename}"
 
 ## $WEEK_OF
 
@@ -26,4 +26,3 @@ cat <<- EOF >> $f
 
 < -----------------|----------------- >
 EOF
-done
