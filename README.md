@@ -11,5 +11,5 @@ Every Monday, a GitHub action creates a PR within a a markdown file containing q
 ## Steps for using this repo template
 
 1. [Create a new private repo from this template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template). (Tips: I always do this in my company's org so that it is not dependent on me or my employment. I make the repository name the IC's handle.)
-1. Update [these two lines](https://github.com/sophshep/one-on-one/blob/master/.github/workflows/weekly-report.yml#L80-L81) to be your handle and the IC's handle. This will assign weekly PRs to both of you so that they show up in your notifications.
-1. Invite the IC to the repo as an admin so they have full editing/merging permissions.
+2. Update [these two lines](https://github.com/sophshep/one-on-one/blob/master/.github/workflows/weekly-report.yml#L80-L81) to be your handle and the IC's handle. This will assign weekly PRs to both of you so that they show up in your notifications.
+3. Invite the IC to the repo as an admin so they have full editing/merging permissions.
