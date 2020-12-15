@@ -1,6 +1,11 @@
 #! /bin/bash
 
 filename="meeting-notes/notes-$(date '+%B-%d-%Y').md"
+
+if [ -z "$(ls -A meeting-notes)" ]; then
+   mkdir meeting-notes
+fi
+
 cat <<- EOF >> "${filename}"
 
 ## $WEEK_OF

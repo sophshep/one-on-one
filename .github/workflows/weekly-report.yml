@@ -29,8 +29,8 @@ jobs:
     # Get date and store as environment variables
     - name: Get and store variables
       run: |
-        echo ::set-env name=BRANCH_NAME::$(date +%F)
-        echo ::set-env name=WEEK_OF::"Week of $(date '+%B %d, %Y')"
+        echo "BRANCH_NAME=$(date +%F)" >> $GITHUB_ENV
+        echo "WEEK_OF=$(date '+%B %d, %Y')" >> $GITHUB_ENV
 
     # Create meeting notes scaffold
     - name: Create weekly notes scaffold file
