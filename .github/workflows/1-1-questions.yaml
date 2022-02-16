@@ -1,0 +1,44 @@
+name: 1-1-preparation Issue questions
+on:
+  workflow_dispatch:
+#  schedule:
+#    - cron: 0 9 * * 2  # Every Tuesday at 9am. The idea is to create the new PR after we had our 1-on-1 on Monday. – https://crontab.guru
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  weekly_1on1-issue:
+    name: Create a new issue with topics to cover
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set date to next week
+        run: echo "DATE=$(date --date="next week Monday" +%F)" >> $GITHUB_ENV
+
+      - name: Checkout the repository to get the template
+        uses: actions/checkout@v2
+
+      - name: Create the issue
+        id: issue-bot
+        uses: imjohnbo/issue-bot@v2
+        with:
+          title: "1:1 for ${{ env.DATE }}"
+          assignees: "abrauner" # GitHub handle, assign to the employee to prepare for the next weeks 1-on-1
+          labels: "1on1"
+          pinned: true
+          close-previous: true
+          template: ".github/ISSUE_TEMPLATE/one-on-one.md" # assignees, labels will be overridden if present in YAML header
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate random questions
+        if: success()
+        uses: pierluigi/random-1on1-questions-action@v1.3
+        with:
+          issue-number: ${{ steps.issue-bot.outputs.issue-number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Optional: ovverride these defaults
+          # num-categories: "3" # how many question categories
+          # num-questions: "1" # how many questions per category
+          # label: "1on1" # which label triggers this workflow

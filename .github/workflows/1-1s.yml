@@ -1,0 +1,67 @@
+name: 1-1-preparation Meeting Notes
+on:
+  workflow_dispatch:
+#  schedule:
+#    - cron: 0 9 * * 2  # Every Tuesday at 9am. The idea is to create the new PR after we had our 1-on-1 on Monday. – https://crontab.guru
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  weekly-1on1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Merge existint PRs
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const prs = await github.pulls.list({owner: context.repo.owner, repo: context.repo.repo, state: 'open'})
+            for (var pull of prs.data) {
+              await github.pulls.merge({owner: context.repo.owner, repo: context.repo.repo, pull_number: pull.number})
+            }
+
+      - name: Checkout workspace
+        uses: actions/checkout@master
+        with:
+          ref: main
+
+      - name: Set a couple of env variables we want to use
+        run: |
+          echo "NOW=$(date --date="next week Monday" +%F)" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$(date --date="next week Monday" +%F)_meeting_notes" >> $GITHUB_ENV
+          echo "COMING_CALENDAR_WEEK=$(date --date="next week" +%U)" >> $GITHUB_ENV
+
+      - name: Create new branch for next 1-1 meeting
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        with:
+          branch: ${{ env.BRANCH_NAME }}
+
+      - name: Create new meeting notes files
+        run: ./create_note.sh
+
+      - name: Commit and push notes scaffold to branch
+        run: |
+          echo "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          git config --global user.email $GITHUB_ACTOR@users.noreply.github.com
+          git config --global user.name $GITHUB_ACTOR
+          git checkout -b ${{ env.BRANCH_NAME }}
+          git add .
+          git commit -m "Adding empty meeting notes for CW ${{ env.COMING_CALENDAR_WEEK }} ${{env.REV}}"
+          git push --set-upstream "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" ${{ env.BRANCH_NAME }}
+
+      - name: Open a new pull request to be merged after we had our 1 on 1
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "${{ env.BRANCH_NAME }}"           # If blank, default: triggered branch
+          destination_branch: "main"                        # If blank, default: master
+          pr_title: "${{ env.BRANCH_NAME }}"
+          pr_body: ":crown: *An automated 1:1 PR*"          # Full markdown support, requires pr_title to be set
+          pr_assignee: "abrauner"                           # Comma-separated list (no spaces), Assign the PR to manager and engineer
+          pr_label: "automerge"                             # Comma-separated list (no spaces)
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up stale branches
+        uses: "jessfraz/branch-cleanup-action@master"
+        with:
+          secrets: ${GITHUB_TOKEN}
