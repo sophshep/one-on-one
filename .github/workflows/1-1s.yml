@@ -1,8 +1,8 @@
 name: 1-1-preparation Meeting Notes
 on:
   workflow_dispatch:
-#  schedule:
-#    - cron: 0 9 * * 2  # Every Tuesday at 9am. The idea is to create the new PR after we had our 1-on-1 on Monday. – https://crontab.guru
+  schedule:
+    - cron: 0 9 * * 4  # Every Thursday at 9am. The idea is to create the new PR after we had our 1-on-1 on Wednesday. – https://crontab.guru
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,8 +28,8 @@ jobs:
 
       - name: Set a couple of env variables we want to use
         run: |
-          echo "NOW=$(date --date="next week Monday" +%F)" >> $GITHUB_ENV
-          echo "BRANCH_NAME=$(date --date="next week Monday" +%F)_meeting_notes" >> $GITHUB_ENV
+          echo "NOW=$(date --date="next week Wednesday" +%F)" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$(date --date="next week Wednesday" +%F)_meeting_notes" >> $GITHUB_ENV
           echo "COMING_CALENDAR_WEEK=$(date --date="next week" +%U)" >> $GITHUB_ENV
 
       - name: Create new branch for next 1-1 meeting
@@ -57,7 +57,7 @@ jobs:
           destination_branch: "main"                        # If blank, default: master
           pr_title: "${{ env.BRANCH_NAME }}"
           pr_body: ":crown: *An automated 1:1 PR*"          # Full markdown support, requires pr_title to be set
-          pr_assignee: "abrauner"                           # Comma-separated list (no spaces), Assign the PR to manager and engineer
+          pr_assignee: "abrauner,octocat"                   # Comma-separated list (no spaces), Assign the PR to manager and engineer
           pr_label: "automerge"                             # Comma-separated list (no spaces)
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
